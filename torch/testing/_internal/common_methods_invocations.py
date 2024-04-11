@@ -12994,8 +12994,7 @@ op_db: List[OpInfo] = [
            supports_out=False),
     OpInfo(
         "nn.functional.cross_entropy",
-        dtypes=floating_types_and(torch.bfloat16),
-        dtypesIfCUDA=floating_types_and(torch.float16, torch.bfloat16),
+        dtypes=floating_types_and(torch.float16, torch.bfloat16),
         sample_inputs_func=sample_inputs_cross_entropy,
         supports_out=False,
         supports_forward_ad=True,
@@ -13018,6 +13017,9 @@ op_db: List[OpInfo] = [
                 "test_variant_consistency_jit",
                 device_type="cuda",
             ),
+            DecorateInfo(unittest.skip("FP16 corss_entropy cases have not been enabled on MPS yet"),
+                         dtypes=(torch.half,), device_type="mps"),
+
         )
     ),
     OpInfo('nn.functional.normalize',
@@ -19428,8 +19430,7 @@ op_db: List[OpInfo] = [
     ),
     OpInfo(
         "nn.functional.nll_loss",
-        dtypes=floating_types_and(torch.bfloat16),
-        dtypesIfCUDA=floating_types_and(torch.float16, torch.bfloat16),
+        dtypes=floating_types_and(torch.float16, torch.bfloat16),
         supports_out=False,
         sample_inputs_func=sample_inputs_nll_loss,
         supports_forward_ad=True,
@@ -19451,6 +19452,9 @@ op_db: List[OpInfo] = [
                 "test_cow_input",
                 device_type='cuda',
             ),
+            DecorateInfo(unittest.skip("FP16 nll_loss cases have not been enabled on MPS yet"),
+                         dtypes=(torch.half,), device_type="mps"),
+
         ),
     ),
     OpInfo(
